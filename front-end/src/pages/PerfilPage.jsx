@@ -84,6 +84,7 @@ function PerfilPage() {
       const data = await response.json();
 
       if (response.ok) {
+        localStorage.setItem('token', data.token); 
         setMensagem({ texto: 'Cadastro atualizado com sucesso!', tipo: 'sucesso' });
       } else {
         setMensagem({ texto: data.error || 'Erro ao atualizar.', tipo: 'erro' });

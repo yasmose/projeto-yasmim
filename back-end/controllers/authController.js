@@ -42,10 +42,11 @@ exports.getUser = async (req, res) => {
 
 exports.updateUser = async (req, res) => {
     try {
-        const updatedUser = await authService.atualizarUsuario(req.user.id, req.body);
+        const result = await authService.atualizarUsuario(req.user.id, req.body);
         res.status(200).json({ 
             message: "Cadastro atualizado com sucesso!", 
-            user: updatedUser 
+            user: result.user,
+            token: result.token //envia o crachá novo
         });
     } catch (error) {
         res.status(400).json({ error: error.message });

@@ -97,24 +97,23 @@ exports.obterUsuario = async (id) => {
 
 exports.atualizarUsuario = async (id, dados) => {
     const index = userDB.findIndex(user => user.id === id);
-    if (index === -1) {
-        throw new Error('Usuário não encontrado!');
-    }
+    if (index === -1) throw new Error('Usuário não encontrado!');
 
-    // Atualiza apenas os campos permitidos que o front-end enviou
     if (dados.nome) userDB[index].nome = dados.nome;
     if (dados.email) userDB[index].email = dados.email;
     if (dados.serie) userDB[index].serie = dados.serie;
+    if (dados.senha) userDB[index].senha = salgaSenha(dados.senha);
 
-    // Se o usuário quiser trocar a senha
-    if (dados.senha) {
-        userDB[index].senha = salgaSenha(dados.senha);
-    }
-
-    return {
+    const updatedUser = {
         id: userDB[index].id,
         nome: userDB[index].nome,
         email: userDB[index].email,
         serie: userDB[index].serie
+    };
+
+    // retornamos o usuário e um NOVO token
+    return {
+        user: updatedUser,
+        token: criarToken(updatedUser) 
     };
 };
