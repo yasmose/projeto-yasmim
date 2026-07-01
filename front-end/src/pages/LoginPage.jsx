@@ -20,7 +20,7 @@ function LoginPage() {
     e.preventDefault(); 
 
     try {
-      const response = await fetch("https://projeto-web-93xg.onrender.com/auth/register", {
+      const response = await fetch("https://projeto-yasmim-api.onrender.com", {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email: emailLogin, senha: senhaLogin })
@@ -48,7 +48,7 @@ function LoginPage() {
     e.preventDefault(); 
 
     try {
-      const response = await fetch("https://projeto-web-93xg.onrender.com", {
+      const response = await fetch("https://projeto-yasmim-api.onrender.com", {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ 
