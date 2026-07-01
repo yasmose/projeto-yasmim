@@ -64,9 +64,7 @@ function HomePage() {
   }, []);
 
   const handlePerfil = () => {
-    const grau = serieUsuario === '1' ? 'Ensino Fundamental I' : serieUsuario === '2' ? 'Ensino Fundamental II' : 'Ensino Médio';
-    // pop up com as informações
-    alert(`DADOS DA SUA CONTA:\n\n👤 Nome: ${nomeUsuario}\n✉️ E-mail: ${emailUsuario}\n📚 Escolaridade: ${grau}`);
+    navigate('/perfil');
   };
 
   const handleLogout = () => {
