@@ -5,6 +5,7 @@ import LoginPage from './pages/LoginPage';
 import HomePage from './pages/HomePage';
 import BookDetailsPage from './pages/BookDetailsPage';
 import ForumPage from './pages/ForumPage';
+import PerfilPage from './pages/PerfilPage';
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
         <Route path="/home" element={<HomePage />} />
         <Route path="/livro" element={<BookDetailsPage />} />
         <Route path="/forum" element={<ForumPage />} />
+        <Route path="/perfil" element={<PerfilPage />} />
       </Routes>
     </BrowserRouter>
   );
