@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 
 function BookDetailsPage() {
@@ -6,17 +6,63 @@ function BookDetailsPage() {
   const location = useLocation();
 
   const livro = location.state?.livroSelecionado || {
-    titulo: "Livro não encontrado", autor: "Desconhecido", ano: "----", tema: "Nenhum", descricao: "Nenhuma descrição informada."
+    id: 0, titulo: "Livro não encontrado", autor: "Desconhecido", ano: "----", tema: "Nenhum", descricao: "Nenhuma descrição informada."
   };
 
   const [favorito, setFavorito] = useState(false);
-  const [notaGeral, setNotaGeral] = useState(4); 
+  const [notaGeral, setNotaGeral] = useState(0); 
+  const [avaliacoes, setAvaliacoes] = useState([]);
+  
   const [novaNota, setNovaNota] = useState(5);
   const [novoComentario, setNovoComentario] = useState('');
-  const [avaliacoes, setAvaliacoes] = useState([
-    { id: 1, usuario: "João", nota: 5, texto: "Amei esse livro, muito legal!" },
-    { id: 2, usuario: "Maria", nota: 3, texto: "Não gostei muito... é OK." }
-  ]);
+  const [jaAvaliou, setJaAvaliou] = useState(false);
+  const [usuarioAtual, setUsuarioAtual] = useState('Visitante');
+
+  useEffect(() => {
+    //pega quem é o usuário logado pelo Token
+    let nomeDoUsuario = 'Visitante';
+    const token = localStorage.getItem('token');
+    if (token) {
+      try {
+        const payload = JSON.parse(atob(token.split('.')[1]));
+        nomeDoUsuario = payload.nome;
+        setUsuarioAtual(nomeDoUsuario);
+      } catch (error) {
+        console.error("Erro ao ler token", error);
+      }
+    }
+
+    //Buscar as avaliações salvas no navegador
+    let todasAvaliacoes = JSON.parse(localStorage.getItem('avaliacoes_biblioteca'));
+    
+    //criamos avaliações falsas para os livros 1 e 2
+    if (!todasAvaliacoes) {
+      todasAvaliacoes = [
+        { id: 101, bookId: 1, usuario: "João", nota: 5, texto: "Amei esse livro, muito legal!" },
+        { id: 102, bookId: 1, usuario: "Maria", nota: 3, texto: "Não gostei muito... é OK." },
+        { id: 103, bookId: 2, usuario: "Lucas", nota: 5, texto: "Achei muito interessante" }
+      ];
+      localStorage.setItem('avaliacoes_biblioteca', JSON.stringify(todasAvaliacoes));
+    }
+
+    const avaliacoesDoLivro = todasAvaliacoes.filter(av => av.bookId === livro.id);
+    
+    // As mais novas aparecem primeiro
+    setAvaliacoes(avaliacoesDoLivro.reverse());
+
+    //Verifica se o usuário já avaliou ESSE livro
+    const usuarioJaFez = avaliacoesDoLivro.some(av => av.usuario === nomeDoUsuario);
+    setJaAvaliou(usuarioJaFez);
+
+    //média da nota geral
+    if (avaliacoesDoLivro.length > 0) {
+      const somaNotas = avaliacoesDoLivro.reduce((acumulador, av) => acumulador + av.nota, 0);
+      setNotaGeral(Math.round(somaNotas / avaliacoesDoLivro.length));
+    } else {
+      setNotaGeral(0); // Fica 0 se não tiver avaliação
+    }
+
+  }, [livro.id]);
 
   const handleAlugar = () => {
     const numeroWhatsApp = "5548999999999"; 
@@ -27,20 +73,35 @@ function BookDetailsPage() {
 
   const handleEnviarAvaliacao = (e) => {
     e.preventDefault();
-    if (!novoComentario) return;
+    if (!novoComentario || jaAvaliou) return;
 
-    const avaliacao = {
+    // Criamos a nova avaliação
+    const novaAvaliacao = {
       id: Date.now(),
-      usuario: "Você", 
+      bookId: livro.id, // vincula a avaliação ao ID do livro
+      usuario: usuarioAtual, 
       nota: novaNota,
       texto: novoComentario
     };
-    setAvaliacoes([avaliacao, ...avaliacoes]);
+
+    const todasAvaliacoes = JSON.parse(localStorage.getItem('avaliacoes_biblioteca')) || [];
+    todasAvaliacoes.push(novaAvaliacao);
+    localStorage.setItem('avaliacoes_biblioteca', JSON.stringify(todasAvaliacoes));
+
+    const novaListaDoLivro = [novaAvaliacao, ...avaliacoes];
+    setAvaliacoes(novaListaDoLivro);
+    setJaAvaliou(true); // Bloqueia para não avaliar de novo
+
+    const somaNotas = novaListaDoLivro.reduce((acumulador, av) => acumulador + av.nota, 0);
+    setNotaGeral(Math.round(somaNotas / novaListaDoLivro.length));
+
     setNovoComentario("");
-    setNovaNota(5);
   };
 
-  const renderEstrelas = (nota) => "⭐".repeat(nota) + "☆".repeat(5 - nota);
+  const renderEstrelas = (nota) => {
+    if (nota === 0) return <span style={{ color: '#999', fontSize: '14px' }}>Nenhuma avaliação ainda</span>;
+    return "⭐".repeat(nota) + "☆".repeat(5 - nota);
+  };
 
   const styles = {
     container: { padding: '20px', fontFamily: 'Arial, sans-serif', maxWidth: '800px', margin: '0 auto' },
@@ -65,7 +126,8 @@ function BookDetailsPage() {
     formBox: { display: 'flex', gap: '10px', marginTop: '25px' },
     inputAvaliacao: { flex: 1, padding: '12px', border: '1px solid #0056b3', borderRadius: '8px', outline: 'none', fontSize: '15px' },
     selectNota: { padding: '10px', borderRadius: '8px', border: '1px solid #0056b3', outline: 'none' },
-    btnEnviar: { backgroundColor: '#0056b3', color: 'white', border: 'none', padding: '0 20px', borderRadius: '8px', cursor: 'pointer', fontWeight: 'bold' }
+    btnEnviar: { backgroundColor: '#0056b3', color: 'white', border: 'none', padding: '0 20px', borderRadius: '8px', cursor: 'pointer', fontWeight: 'bold' },
+    msgAvaliado: { marginTop: '25px', padding: '15px', backgroundColor: '#d4edda', color: '#155724', borderRadius: '8px', textAlign: 'center', fontWeight: 'bold', border: '1px solid #c3e6cb' }
   };
 
   return (
@@ -114,40 +176,44 @@ function BookDetailsPage() {
         <div style={styles.tituloAvaliacoes}>Avaliações:</div>
 
         <div>
-          {avaliacoes.map((av) => (
-            <div key={av.id} style={styles.comentarioItem}>
-              <div>
-                <span style={styles.nomeUsuario}>{av.usuario}</span>
-                <span style={styles.estrelasAvaliacao}>{renderEstrelas(av.nota)}</span>
+          {avaliacoes.length === 0 ? (
+            <p style={{ color: '#777', fontStyle: 'italic' }}>Ninguém avaliou este livro ainda. Seja o primeiro!</p>
+          ) : (
+            avaliacoes.map((av) => (
+              <div key={av.id} style={styles.comentarioItem}>
+                <div>
+                  <span style={styles.nomeUsuario}>{av.usuario}</span>
+                  <span style={styles.estrelasAvaliacao}>{renderEstrelas(av.nota)}</span>
+                </div>
+                <div style={styles.textoComentario}>{av.texto}</div>
               </div>
-              <div style={styles.textoComentario}>{av.texto}</div>
-            </div>
-          ))}
+            ))
+          )}
         </div>
 
-        <form onSubmit={handleEnviarAvaliacao} style={styles.formBox}>
-          <select 
-            value={novaNota} 
-            onChange={(e) => setNovaNota(Number(e.target.value))} 
-            style={styles.selectNota}
-          >
-            <option value="5">5 ⭐</option>
-            <option value="4">4 ⭐</option>
-            <option value="3">3 ⭐</option>
-            <option value="2">2 ⭐</option>
-            <option value="1">1 ⭐</option>
-          </select>
+        {!jaAvaliou ? (
+          <form onSubmit={handleEnviarAvaliacao} style={styles.formBox}>
+            <select value={novaNota} onChange={(e) => setNovaNota(Number(e.target.value))} style={styles.selectNota}>
+              <option value="5">5 ⭐</option>
+              <option value="4">4 ⭐</option>
+              <option value="3">3 ⭐</option>
+              <option value="2">2 ⭐</option>
+              <option value="1">1 ⭐</option>
+            </select>
 
-          <input 
-            type="text" 
-            placeholder="Deixe sua avaliação..." 
-            value={novoComentario}
-            onChange={(e) => setNovoComentario(e.target.value)}
-            style={styles.inputAvaliacao}
-            required
-          />
-          <button type="submit" style={styles.btnEnviar}>Enviar</button>
-        </form>
+            <input 
+              type="text" placeholder="Deixe sua avaliação..." 
+              value={novoComentario} onChange={(e) => setNovoComentario(e.target.value)}
+              style={styles.inputAvaliacao} required
+            />
+            <button type="submit" style={styles.btnEnviar}>Enviar</button>
+          </form>
+        ) : (
+          <div style={styles.msgAvaliado}>
+            ✔️ Você já deixou sua avaliação para este livro. Obrigado!
+          </div>
+        )}
+        
       </div>
 
     </div>
