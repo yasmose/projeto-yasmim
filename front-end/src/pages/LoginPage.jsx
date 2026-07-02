@@ -29,9 +29,7 @@ function LoginPage() {
       const data = await response.json();
 
       if (response.ok) {
-        // SALVANDO O NOVO TOKEN DO BACK-END NO NAVEGADOR!
         localStorage.setItem('token', data.token);
-        
         alert(`Login efetuado com sucesso!`);
         navigate('/home'); 
       } else {
@@ -56,8 +54,8 @@ function LoginPage() {
           cpf: cpfCadastro, 
           email: emailCadastro, 
           senha: senhaCadastro,
-          confirmaSenha: confirmaSenhaCadastro, // Agora mandamos para o back-end validar
-          serie: escolaridadeCadastro // O back-end chama de 'serie' agora
+          confirmaSenha: confirmaSenhaCadastro,
+          serie: escolaridadeCadastro 
         })
       });
 
@@ -76,94 +74,120 @@ function LoginPage() {
   };
 
   return (
-    <div style={{ 
-      display: 'flex', 
-      justifyContent: 'center', 
-      alignItems: 'center', 
-      minHeight: '100vh', 
-      backgroundColor: '#f4f7f6'
-    }}>
-      <div style={{ 
-        backgroundColor: '#ffffff', 
-        padding: '50px 40px', 
-        borderRadius: '16px',
-        boxShadow: '0 10px 30px rgba(0, 0, 0, 0.08)',
-        width: '100%', 
-        maxWidth: '400px',
-        textAlign: 'center'
+    <>
+      <style>
+        {`@import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600&display=swap');`}
+      </style>
+
+
+      <div style={{ //degrade
+        display: 'flex', 
+        justifyContent: 'center', 
+        alignItems: 'center', 
+        minHeight: '100vh', 
+        background: 'linear-gradient(135deg, #ff8c00 0%, #0056b3 100%)', // Laranja para o Azul
+        fontFamily: "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif",
+        padding: '20px'
       }}>
         
-        <img 
-          src="/logo/logo.jpg" 
-          alt="Logo da Biblioteca" 
-          style={{ width: '200px', height: 'auto', marginBottom: '20px', display: 'block', margin: '0 auto' }} 
-        />
-        
-        <h2 style={{ 
-          color: '#1a202c',
-          fontSize: '24px', 
-          fontWeight: '700', 
-          marginBottom: '35px' 
+        <div style={{ 
+          backgroundColor: 'rgba(255, 255, 255, 0.90)', 
+          backdropFilter: 'blur(10px)', // Desfoca o fundo
+          padding: '40px', 
+          borderRadius: '24px', 
+          boxShadow: '0 15px 35px rgba(0, 0, 0, 0.2)',
+          border: '1px solid rgba(255, 255, 255, 0.5)',
+          width: '100%', 
+          maxWidth: '400px',
+          textAlign: 'center'
         }}>
-          Login no Sistema
-        </h2>
+          
+          <img 
+            src="/logo/logo.jpg" 
+            alt="Logo da Biblioteca" 
+            style={{ width: '100px', height: 'auto', marginBottom: '10px', display: 'block', margin: '0 auto', borderRadius: '12px' }} 
+          />
+          
+          <h1 style={{ 
+            fontFamily: "'Fredoka', sans-serif", 
+            fontSize: '42px', 
+            fontWeight: '600', 
+            color: '#0056b3', 
+            margin: '0 0 5px 0', 
+            letterSpacing: '1px' 
+          }}>
+            ChatBook
+          </h1>
+          <p style={{ color: '#555', fontSize: '15px', marginBottom: '30px' }}>
+            Sua biblioteca digital interativa
+          </p>
 
-        {isLogin ? (
-          // ================= TELA DE LOGIN =================
-          <form onSubmit={handleLogin} style={{ display: 'flex', flexDirection: 'column', gap: '15px' }}>
-            <input 
-              type="email" placeholder="Email" required
-              value={emailLogin} onChange={(e) => setEmailLogin(e.target.value)}
-              style={{ padding: '10px', borderRadius: '5px', border: '1px solid #ccc' }} 
-            />
-            <input 
-              type="password" placeholder="Senha" required
-              value={senhaLogin} onChange={(e) => setSenhaLogin(e.target.value)}
-              style={{ padding: '10px', borderRadius: '5px', border: '1px solid #ccc' }} 
-            />
-            <button type="submit" style={{ padding: '10px', backgroundColor: '#0056b3', color: 'white', border: 'none', borderRadius: '5px', cursor: 'pointer', fontWeight: 'bold' }}>
-              Entrar
-            </button>
-            <p style={{ textAlign: 'center', fontSize: '14px', marginTop: '10px' }}>
-              Ainda não é cadastrado?<br/>
-              <a href="#" onClick={(e) => { e.preventDefault(); setIsLogin(false); }} style={{ fontWeight: 'bold', color: '#0056b3', textDecoration: 'none' }}>
-                Faça seu cadastro
-              </a>
-            </p>
-          </form>
-        ) : (
-          // ================= TELA DE CADASTRO =================
-          <form onSubmit={handleRegister} style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
-            <p style={{ textAlign: 'center', marginBottom: '15px', fontSize: '14px' }}>Preencha os espaços abaixo para fazer cadastro:</p>
-            
-            <input type="text" placeholder="nome completo*" required value={nomeCadastro} onChange={(e) => setNomeCadastro(e.target.value)} style={{ padding: '8px', borderRadius: '5px', border: '1px solid #ccc' }} />
-            <input type="text" placeholder="CPF*" required value={cpfCadastro} onChange={(e) => setCpfCadastro(e.target.value)} style={{ padding: '8px', borderRadius: '5px', border: '1px solid #ccc' }} />
-            <input type="email" placeholder="email*" required value={emailCadastro} onChange={(e) => setEmailCadastro(e.target.value)} style={{ padding: '8px', borderRadius: '5px', border: '1px solid #ccc' }} />
-            <input type="password" placeholder="senha*" required value={senhaCadastro} onChange={(e) => setSenhaCadastro(e.target.value)} style={{ padding: '8px', borderRadius: '5px', border: '1px solid #ccc' }} />
-            <input type="password" placeholder="Confirmar senha*" required value={confirmaSenhaCadastro} onChange={(e) => setConfirmaSenhaCadastro(e.target.value)} style={{ padding: '8px', borderRadius: '5px', border: '1px solid #ccc' }} />
+          {isLogin ? (
+            // ================= TELA DE LOGIN =================
+            <form onSubmit={handleLogin} style={{ display: 'flex', flexDirection: 'column', gap: '15px' }}>
+              <input 
+                type="email" placeholder="Email" required
+                value={emailLogin} onChange={(e) => setEmailLogin(e.target.value)}
+                style={{ padding: '12px', borderRadius: '8px', border: '1px solid #ccc', outline: 'none', backgroundColor: 'rgba(255,255,255,0.9)' }} 
+              />
+              <input 
+                type="password" placeholder="Senha" required
+                value={senhaLogin} onChange={(e) => setSenhaLogin(e.target.value)}
+                style={{ padding: '12px', borderRadius: '8px', border: '1px solid #ccc', outline: 'none', backgroundColor: 'rgba(255,255,255,0.9)' }} 
+              />
+              <button 
+                type="submit" 
+                style={{ padding: '14px', backgroundColor: '#0056b3', color: 'white', border: 'none', borderRadius: '8px', cursor: 'pointer', fontWeight: 'bold', fontSize: '16px', transition: 'background 0.3s' }}
+                onMouseOver={(e) => e.target.style.backgroundColor = '#004494'}
+                onMouseOut={(e) => e.target.style.backgroundColor = '#0056b3'}
+              >
+                Entrar
+              </button>
+              <p style={{ textAlign: 'center', fontSize: '14px', marginTop: '10px', color: '#555' }}>
+                Ainda não é cadastrado?<br/>
+                <a href="#" onClick={(e) => { e.preventDefault(); setIsLogin(false); }} style={{ fontWeight: 'bold', color: '#ff8c00', textDecoration: 'none' }}>
+                  Faça seu cadastro
+                </a>
+              </p>
+            </form>
+          ) : (
+            // ================= TELA DE CADASTRO =================
+            <form onSubmit={handleRegister} style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+              <p style={{ textAlign: 'center', marginBottom: '10px', fontSize: '14px', color: '#444' }}>Preencha os espaços abaixo para fazer cadastro:</p>
+              
+              <input type="text" placeholder="Nome completo*" required value={nomeCadastro} onChange={(e) => setNomeCadastro(e.target.value)} style={{ padding: '10px', borderRadius: '8px', border: '1px solid #ccc', outline: 'none' }} />
+              <input type="text" placeholder="CPF*" required value={cpfCadastro} onChange={(e) => setCpfCadastro(e.target.value)} style={{ padding: '10px', borderRadius: '8px', border: '1px solid #ccc', outline: 'none' }} />
+              <input type="email" placeholder="Email*" required value={emailCadastro} onChange={(e) => setEmailCadastro(e.target.value)} style={{ padding: '10px', borderRadius: '8px', border: '1px solid #ccc', outline: 'none' }} />
+              <input type="password" placeholder="Senha*" required value={senhaCadastro} onChange={(e) => setSenhaCadastro(e.target.value)} style={{ padding: '10px', borderRadius: '8px', border: '1px solid #ccc', outline: 'none' }} />
+              <input type="password" placeholder="Confirmar senha*" required value={confirmaSenhaCadastro} onChange={(e) => setConfirmaSenhaCadastro(e.target.value)} style={{ padding: '10px', borderRadius: '8px', border: '1px solid #ccc', outline: 'none' }} />
 
-            <label style={{ fontSize: '14px', marginTop: '5px' }}>escolaridade:</label>
-            {/* O value agora é 1, 2 ou 3, exatamente como o back-end exigiu */}
-            <select value={escolaridadeCadastro} onChange={(e) => setEscolaridadeCadastro(e.target.value)} required style={{ padding: '8px', borderRadius: '5px', border: '1px solid #ccc' }}>
-              <option value="">Selecione seu grau</option>
-              <option value="1">Ensino Fundamental I</option>
-              <option value="2">Ensino Fundamental II</option>
-              <option value="3">Ensino Médio</option>
-            </select>
+              <label style={{ fontSize: '13px', marginTop: '5px', textAlign: 'left', fontWeight: 'bold', color: '#555' }}>Escolaridade:</label>
+              <select value={escolaridadeCadastro} onChange={(e) => setEscolaridadeCadastro(e.target.value)} required style={{ padding: '10px', borderRadius: '8px', border: '1px solid #ccc', outline: 'none', backgroundColor: 'white' }}>
+                <option value="">Selecione seu grau</option>
+                <option value="1">Ensino Fundamental I</option>
+                <option value="2">Ensino Fundamental II</option>
+                <option value="3">Ensino Médio</option>
+              </select>
 
-            <button type="submit" style={{ padding: '10px', backgroundColor: '#28a745', color: 'white', border: 'none', borderRadius: '5px', cursor: 'pointer', fontWeight: 'bold', marginTop: '10px' }}>
-              FAZER CADASTRO
-            </button>
-            <p style={{ textAlign: 'center', fontSize: '14px', marginTop: '10px' }}>
-              Já tem conta?{' '}
-              <a href="#" onClick={(e) => { e.preventDefault(); setIsLogin(true); }} style={{ fontWeight: 'bold', color: '#0056b3', textDecoration: 'none' }}>
-                Faça o Login
-              </a>
-            </p>
-          </form>
-        )}
+              <button 
+                type="submit" 
+                style={{ padding: '14px', backgroundColor: '#28a745', color: 'white', border: 'none', borderRadius: '8px', cursor: 'pointer', fontWeight: 'bold', marginTop: '10px', fontSize: '16px' }}
+                onMouseOver={(e) => e.target.style.backgroundColor = '#218838'}
+                onMouseOut={(e) => e.target.style.backgroundColor = '#28a745'}
+              >
+                FAZER CADASTRO
+              </button>
+              <p style={{ textAlign: 'center', fontSize: '14px', marginTop: '10px', color: '#555' }}>
+                Já tem conta?{' '}
+                <a href="#" onClick={(e) => { e.preventDefault(); setIsLogin(true); }} style={{ fontWeight: 'bold', color: '#0056b3', textDecoration: 'none' }}>
+                  Faça o Login
+                </a>
+              </p>
+            </form>
+          )}
+        </div>
       </div>
-    </div>
+    </>
   );
 }
 
