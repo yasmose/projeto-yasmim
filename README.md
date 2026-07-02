@@ -1,9 +1,10 @@
-# 📚 Sistema de Biblioteca Escolar
+# 📚 ChatBook
 
 **Curso:** Sistemas de Informação - Universidade Federal de Santa Catarina (UFSC)
 **Autores:** Yasmim de Cássia Normanha Silva (22104162) e Gabriel de Paula Góes (24203159)
-Link repositório do projeto: `https://github.com/Gabriel-D-Goes/projeto-Web.git`
-`https://projetobiblioteca-gamma.vercel.app/`
+Link repositório do projeto: `https://github.com/Gabriel-D-Goes/projeto-Web.git` e `https://github.com/yasmose/projeto-yasmim.git`
+
+Link da aplicação: `https://projeto-yasmim-r53d9a1c4-web125.vercel.app/`
 <<<<<<< HEAD
 =======
 
@@ -18,9 +19,4 @@ Aplicação Web desenvolvida para gerenciamento e intermediação de aluguel de 
 - **Fórum de Discussão Dinâmico:** Fórum segmentado por série, integrado no front-end utilizando persistência via `localStorage`.
 - **Integração com WhatsApp:** Canal direto de comunicação em tempo real via API do WhatsApp para o aluguel das obras.
 
-## 🚀 Como rodar o projeto localmente
 
-1. Extraia o arquivo `.zip` ou faça o clone do repositório.
-2. Acesse a pasta `back-end`, abra o terminal, rode `npm install` e inicie o servidor com `node server.js`.
-3. Acesse a pasta `front-end` em outro terminal, rode `npm install` e inicie a interface com `npm run dev`.
-4. Acesse `http://localhost:5173` no navegador.
