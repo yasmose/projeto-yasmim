@@ -56,47 +56,76 @@ function ForumPage() {
   const nomeSerie = serieUsuario === '1' ? 'Ensino Fundamental I' : serieUsuario === '2' ? 'Ensino Fundamental II' : 'Ensino Médio';
 
   return (
-    <div style={{ fontFamily: 'Arial, sans-serif', maxWidth: '800px', margin: '0 auto', padding: '20px' }}>
-      
-      <button onClick={() => navigate('/home')} style={{ marginBottom: '20px', padding: '10px 15px', backgroundColor: '#ffffff', border: '2px solid #ccc', borderRadius: '5px', cursor: 'pointer' }}>
-        ← Voltar para a Biblioteca
-      </button>
+    <>
+      <style>
+        {`@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap');`}
+      </style>
 
-      <h1 style={{ textAlign: 'center', color: '#e07823' }}>Fórum de Discussão</h1>
-      <h3 style={{ textAlign: 'center', color: '#0056b3', marginBottom: '30px' }}>{nomeSerie}</h3>
+      {/* Fundo da página*/}
+      <div style={{ 
+        minHeight: '100vh', 
+        background: 'linear-gradient(135deg, #f6f9fc 0%, #e9f0f5 100%)', 
+        fontFamily: "'Montserrat', sans-serif", 
+        padding: '40px 20px',
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center'
+      }}>
+        
+        <div style={{ width: '100%', maxWidth: '800px' }}>
+          
+          <button 
+            onClick={() => navigate('/home')} 
+            style={{ marginBottom: '20px', padding: '10px 20px', backgroundColor: '#ffffff', color: '#0056b3', border: '1px solid #cce5ff', borderRadius: '8px', cursor: 'pointer', fontWeight: '600', display: 'inline-flex', alignItems: 'center', boxShadow: '0 2px 5px rgba(0,0,0,0.05)' }}
+          >
+            ← Voltar para a Biblioteca
+          </button>
 
-      {/* Caixa de Mensagens */}
-      <div style={{ backgroundColor: '#f9f9f9', border: '1px solid #ddd', borderRadius: '8px', padding: '20px', height: '400px', overflowY: 'auto', marginBottom: '20px' }}>
-        {mensagensDaMinhaSerie.length === 0 ? (
-          <p style={{ textAlign: 'center', color: '#999', marginTop: '150px' }}>Seja o primeiro a mandar uma opinião!</p>
-        ) : (
-          mensagensDaMinhaSerie.map((msg) => (
-            <div key={msg.id} style={{ marginBottom: '15px', paddingBottom: '15px', borderBottom: '1px solid #eee' }}>
-              <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '5px' }}>
-                <strong style={{ color: msg.autor === nomeUsuario ? '#28a745' : '#333' }}>{msg.autor}</strong>
-                <span style={{ fontSize: '12px', color: '#888' }}>{msg.data}</span>
-              </div>
-              <p style={{ margin: 0, color: '#555', fontSize: '16px' }}>{msg.texto}</p>
+          <h1 style={{ textAlign: 'center', color: '#ff8c00', fontSize: '32px', margin: '0 0 10px 0', fontWeight: '700' }}>Fórum de Discussão</h1>
+          <h3 style={{ textAlign: 'center', color: '#0056b3', margin: '0 0 30px 0', fontSize: '18px', fontWeight: '600' }}>{nomeSerie}</h3>
+
+          {/* Caixa de Mensagens */}
+          <div style={{ width: '100%', backgroundColor: '#ffffff', borderRadius: '16px', boxShadow: '0 10px 30px rgba(0,0,0,0.08)', display: 'flex', flexDirection: 'column', overflow: 'hidden', border: '1px solid #e1e8ed', height: '60vh', minHeight: '400px' }}>
+            
+            <div style={{ flex: 1, padding: '20px', overflowY: 'auto', backgroundColor: '#f8f9fa', display: 'flex', flexDirection: 'column', gap: '15px' }}>
+              {mensagensDaMinhaSerie.length === 0 ? (
+                <p style={{ margin: 'auto', color: '#adb5bd', textAlign: 'center', fontSize: '16px', fontWeight: '600' }}>Seja o primeiro a mandar uma opinião! 💬</p>
+              ) : (
+                mensagensDaMinhaSerie.map((msg) => (
+                  <div key={msg.id} style={{ backgroundColor: '#ffffff', padding: '15px', borderRadius: '12px', border: '1px solid #e9ecef', boxShadow: '0 2px 4px rgba(0,0,0,0.02)' }}>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '8px', borderBottom: '1px solid #f1f3f5', paddingBottom: '8px' }}>
+                      <strong style={{ fontSize: '15px', color: msg.autor === nomeUsuario ? '#ff8c00' : '#0056b3' }}>
+                        {msg.autor} {msg.autor === nomeUsuario && '(Você)'}
+                      </strong>
+                      <span style={{ color: '#868e96', fontSize: '12px', fontWeight: '600' }}>{msg.data}</span>
+                    </div>
+                    <p style={{ margin: 0, color: '#495057', fontSize: '15px', lineHeight: '1.5', whiteSpace: 'pre-wrap' }}>{msg.texto}</p>
+                  </div>
+                ))
+              )}
             </div>
-          ))
-        )}
-      </div>
 
-      {/* Área para digitar a mensagem */}
-      <div style={{ display: 'flex', gap: '10px' }}>
-        <input 
-          type="text" 
-          placeholder="Escreva sua opinião sobre um livro..." 
-          value={novaMensagem}
-          onChange={(e) => setNovaMensagem(e.target.value)}
-          style={{ flex: 1, padding: '15px', borderRadius: '8px', border: '1px solid #ccc', fontSize: '16px' }}
-        />
-        <button onClick={handleEnviar} style={{ padding: '15px 30px', backgroundColor: '#0056b3', color: 'white', border: 'none', borderRadius: '8px', cursor: 'pointer', fontWeight: 'bold', fontSize: '16px' }}>
-          Enviar
-        </button>
+            {/* Área para digitar a mensagem*/}
+            <div style={{ display: 'flex', padding: '20px', backgroundColor: '#ffffff', borderTop: '1px solid #e9ecef', gap: '15px' }}>
+              <input 
+                type="text" 
+                placeholder="Escreva sua opinião sobre um livro..." 
+                value={novaMensagem}
+                onChange={(e) => setNovaMensagem(e.target.value)}
+                style={{ flex: 1, padding: '15px 20px', borderRadius: '30px', border: '1px solid #ced4da', outline: 'none', fontSize: '15px', fontFamily: "'Montserrat', sans-serif", backgroundColor: '#f8f9fa' }}
+              />
+              <button 
+                onClick={handleEnviar} 
+                style={{ padding: '0 30px', backgroundColor: '#0056b3', color: '#ffffff', border: 'none', borderRadius: '30px', fontWeight: '700', fontSize: '15px', cursor: 'pointer', boxShadow: '0 4px 10px rgba(0, 86, 179, 0.2)' }}
+              >
+                Enviar
+              </button>
+            </div>
+            
+          </div>
+        </div>
       </div>
-
-    </div>
+    </>
   );
 }
 

@@ -113,12 +113,11 @@ function HomePage() {
 
   return (
     <>
-
       <style>
         {`@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap');`}
       </style>
 
-
+      {/* FUNDO DA PÁGINA*/}
       <div style={{ 
         fontFamily: "'Montserrat', sans-serif", 
         minHeight: '100vh',
@@ -126,7 +125,6 @@ function HomePage() {
         padding: '40px 20px' 
       }}>
         
-
         <div style={{ maxWidth: '1100px', margin: '0 auto' }}>
           
           <div style={{ 
@@ -144,12 +142,12 @@ function HomePage() {
             gap: '20px' 
           }}>
             
-            // LOGO 
+            {/* LOGO */}
             <div style={{ display: 'flex', alignItems: 'center' }}>
               <img src="/logo/logo.jpg" alt="Logo da Biblioteca" style={{ width: '80px', height: 'auto', borderRadius: '10px' }} />
             </div>
 
-            // BARRA DE PESQUISA  
+            {/* BARRA DE PESQUISA  */}
             <div style={{ flex: 1, maxWidth: '500px', margin: '0 20px' }}>
               <input 
                 type="text" 
@@ -180,7 +178,7 @@ function HomePage() {
               />
             </div>
             
-            // INFORMAÇÕES DO USUÁRIO 
+            {/* INFORMAÇÕES DO USUÁRIO */}
             <div style={{ textAlign: 'right', display: 'flex', flexDirection: 'column', alignItems: 'flex-end' }}>
               <div style={{ marginBottom: '12px' }}>
                 <div style={{ fontSize: '18px', fontWeight: '700', color: '#333' }}>
@@ -212,7 +210,7 @@ function HomePage() {
             </div>
           </div>
 
-          //BANNER DOS FÓRUNS Degradê Laranja e Azul unindo a identidade
+          {/* BANNER DOS FÓRUNS  */}
           <div 
             onClick={() => navigate('/forum')} 
             style={{ 
