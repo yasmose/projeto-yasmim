@@ -5,10 +5,6 @@
 Link repositório do projeto: `https://github.com/Gabriel-D-Goes/projeto-Web.git` e `https://github.com/yasmose/projeto-yasmim.git`
 
 Link da aplicação: `https://projeto-yasmim-r53d9a1c4-web125.vercel.app/`
-<<<<<<< HEAD
-=======
-
->>>>>>> 46b128f1d3f53e5b5d83000041a8df67f8823ff0
 
 ## 📝 Descrição do Projeto
 Aplicação Web desenvolvida para gerenciamento e intermediação de aluguel de livros didáticos e literários. O sistema conta com um ecossistema completo composto por:
