@@ -61,15 +61,30 @@ function ForumPage() {
         {`@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap');`}
       </style>
 
-      {/* Fundo da página*/}
+      {/*fundo com a logo em blur*/}
+      <div style={{
+        position: 'fixed',
+        top: 0,
+        left: 0,
+        width: '100vw',
+        height: '100vh',
+        backgroundImage: 'url(/logo/logo.jpg)',
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        filter: 'blur(15px)', 
+        opacity: 0.7, 
+        zIndex: -1 // Fica atrás de todo o conteúdo
+      }} />
+
       <div style={{ 
         minHeight: '100vh', 
-        background: 'linear-gradient(135deg, #f6f9fc 0%, #e9f0f5 100%)', 
         fontFamily: "'Montserrat', sans-serif", 
         padding: '40px 20px',
         display: 'flex',
         flexDirection: 'column',
-        alignItems: 'center'
+        alignItems: 'center',
+        position: 'relative',
+        zIndex: 1
       }}>
         
         <div style={{ width: '100%', maxWidth: '800px' }}>
@@ -81,18 +96,49 @@ function ForumPage() {
             ← Voltar para a Biblioteca
           </button>
 
-          <h1 style={{ textAlign: 'center', color: '#ff8c00', fontSize: '32px', margin: '0 0 10px 0', fontWeight: '700' }}>Fórum de Discussão</h1>
-          <h3 style={{ textAlign: 'center', color: '#0056b3', margin: '0 0 30px 0', fontSize: '18px', fontWeight: '600' }}>{nomeSerie}</h3>
+          {/* titulo com degrade */}
+          <h1 style={{ 
+            textAlign: 'center', 
+            background: 'linear-gradient(135deg, #0056b3 0%, #ff8c00 100%)', 
+            color: '#ffffff', 
+            textShadow: '2px 2px 5px rgba(0,0,0,0.4)', 
+            fontSize: '32px', 
+            margin: '0 0 15px 0', 
+            fontWeight: '700',
+            padding: '20px 30px',
+            borderRadius: '16px', 
+            boxShadow: '0 8px 20px rgba(0,0,0,0.15)' 
+          }}>
+            Fórum de Discussão
+          </h1>
+
+          <h3 style={{ 
+            textAlign: 'center', 
+            color: '#0056b3', 
+            margin: '0 0 30px 0', 
+            fontSize: '18px', 
+            fontWeight: '700',
+            backgroundColor: 'rgba(255,255,255,0.8)', 
+            padding: '5px 15px',
+            borderRadius: '20px',
+            display: 'inline-block', 
+            width: 'fit-content',
+            marginLeft: 'auto',
+            marginRight: 'auto',
+            display: 'block'
+          }}>
+            {nomeSerie}
+          </h3>
 
           {/* Caixa de Mensagens */}
-          <div style={{ width: '100%', backgroundColor: '#ffffff', borderRadius: '16px', boxShadow: '0 10px 30px rgba(0,0,0,0.08)', display: 'flex', flexDirection: 'column', overflow: 'hidden', border: '1px solid #e1e8ed', height: '60vh', minHeight: '400px' }}>
+          <div style={{ width: '100%', backgroundColor: 'rgba(255,255,255,0.95)', borderRadius: '16px', boxShadow: '0 10px 30px rgba(0,0,0,0.15)', display: 'flex', flexDirection: 'column', overflow: 'hidden', border: '1px solid #e1e8ed', height: '60vh', minHeight: '400px', backdropFilter: 'blur(5px)' }}>
             
-            <div style={{ flex: 1, padding: '20px', overflowY: 'auto', backgroundColor: '#f8f9fa', display: 'flex', flexDirection: 'column', gap: '15px' }}>
+            <div style={{ flex: 1, padding: '20px', overflowY: 'auto', backgroundColor: 'transparent', display: 'flex', flexDirection: 'column', gap: '15px' }}>
               {mensagensDaMinhaSerie.length === 0 ? (
                 <p style={{ margin: 'auto', color: '#adb5bd', textAlign: 'center', fontSize: '16px', fontWeight: '600' }}>Seja o primeiro a mandar uma opinião! 💬</p>
               ) : (
                 mensagensDaMinhaSerie.map((msg) => (
-                  <div key={msg.id} style={{ backgroundColor: '#ffffff', padding: '15px', borderRadius: '12px', border: '1px solid #e9ecef', boxShadow: '0 2px 4px rgba(0,0,0,0.02)' }}>
+                  <div key={msg.id} style={{ backgroundColor: '#ffffff', padding: '15px', borderRadius: '12px', border: '1px solid #e9ecef', boxShadow: '0 2px 4px rgba(0,0,0,0.05)' }}>
                     <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '8px', borderBottom: '1px solid #f1f3f5', paddingBottom: '8px' }}>
                       <strong style={{ fontSize: '15px', color: msg.autor === nomeUsuario ? '#ff8c00' : '#0056b3' }}>
                         {msg.autor} {msg.autor === nomeUsuario && '(Você)'}
