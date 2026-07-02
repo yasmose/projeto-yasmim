@@ -32,6 +32,10 @@ function BookDetailsPage() {
       }
     }
 
+    const todosFavoritos = JSON.parse(localStorage.getItem('favoritos_biblioteca')) || [];
+    const jaEstaFavoritado = todosFavoritos.some(fav => fav.usuario === nomeDoUsuario && fav.livro.id === livro.id);
+    setFavorito(jaEstaFavoritado);
+
     //Buscar as avaliações salvas no navegador
     let todasAvaliacoes = JSON.parse(localStorage.getItem('avaliacoes_biblioteca'));
     
@@ -63,6 +67,23 @@ function BookDetailsPage() {
     }
 
   }, [livro.id]);
+
+  const handleFavoritar = () => {
+    const novoStatus = !favorito;
+    setFavorito(novoStatus);
+
+    let todosFavoritos = JSON.parse(localStorage.getItem('favoritos_biblioteca')) || [];
+
+    if (novoStatus) {
+      // Se curtiu, salva o livro e de quem é
+      todosFavoritos.push({ usuario: usuarioAtual, livro: livro });
+    } else {
+      // Se descurtiu, filtra e remove o livro do usuário
+      todosFavoritos = todosFavoritos.filter(fav => !(fav.usuario === usuarioAtual && fav.livro.id === livro.id));
+    }
+    
+    localStorage.setItem('favoritos_biblioteca', JSON.stringify(todosFavoritos));
+  };
 
   const handleAlugar = () => {
     const numeroWhatsApp = "5548999999999"; 
@@ -145,7 +166,7 @@ function BookDetailsPage() {
         <div style={styles.infoContainer}>
           <div style={styles.headerLivro}>
             <h1 style={styles.titulo}>{livro.titulo}</h1>
-            <button onClick={() => setFavorito(!favorito)} style={styles.btnFavorito} title="Favoritar">
+            <button onClick={handleFavoritar} style={styles.btnFavorito} title="Favoritar">
               {favorito ? "❤️" : "🤍"}
             </button>
           </div>
