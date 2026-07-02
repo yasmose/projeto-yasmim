@@ -237,7 +237,7 @@ function BookDetailsPage() {
                   e.target.style.transform = 'translateY(0)';
                 }}
               >
-                📱 QUERO ALUGAR NO WHATSAPP
+                QUERO ALUGAR NO WHATSAPP📲
               </button>
             </div>
           </div>
