@@ -1,6 +1,7 @@
 # 📚 ChatBook
 
-**Curso:** Sistemas de Informação - Universidade Federal de Santa Catarina (UFSC)
+**Curso:** Sistemas de Informação - Universidade Federal de Santa Catarina (UFSC) 
+
 **Autores:** Yasmim de Cássia Normanha Silva (22104162) e Gabriel de Paula Góes (24203159)
 Link repositório do projeto: `https://github.com/Gabriel-D-Goes/projeto-Web.git` e `https://github.com/yasmose/projeto-yasmim.git`
 
