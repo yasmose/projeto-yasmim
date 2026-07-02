@@ -112,67 +112,166 @@ function HomePage() {
   });
 
   return (
-    <div style={{ fontFamily: 'Arial, sans-serif', maxWidth: '1000px', margin: '0 auto', padding: '20px' }}>
-      
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '15px 25px', backgroundColor: '#ffffff', boxShadow: '0 4px 12px rgba(0,0,0,0.05)', borderRadius: '12px', marginBottom: '30px', flexWrap: 'wrap', gap: '20px' }}>
-        
-        <div style={{ display: 'flex', alignItems: 'center' }}>
-          <img src="/logo/logo.jpg" alt="Logo da Biblioteca" style={{ width: '75px', height: 'auto', borderRadius: '8px' }} />
-        </div>
+    <>
 
-        <div style={{ flex: 1, maxWidth: '500px', margin: '0 20px' }}>
-          <input 
-            type="text" placeholder="Pesquise por um título, autor ou categoria..." 
-            value={busca} onChange={(e) => setBusca(e.target.value)} 
-            style={{ width: '100%', padding: '12px 22px', borderRadius: '25px', border: '1px solid #ddd', outline: 'none', fontSize: '15px', backgroundColor: '#f8f9fa', transition: 'all 0.3s ease', boxShadow: 'inset 0 1px 3px rgba(0,0,0,0.02)' }}
-            onFocus={(e) => { e.target.style.borderColor = '#0056b3'; e.target.style.backgroundColor = '#ffffff'; e.target.style.boxShadow = '0 0 0 3px rgba(0, 86, 179, 0.1)'; }}
-            onBlur={(e) => { e.target.style.borderColor = '#ddd'; e.target.style.backgroundColor = '#f8f9fa'; e.target.style.boxShadow = 'inset 0 1px 3px rgba(0,0,0,0.02)'; }}
-          />
-        </div>
+      <style>
+        {`@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap');`}
+      </style>
+
+
+      <div style={{ 
+        fontFamily: "'Montserrat', sans-serif", 
+        minHeight: '100vh',
+        background: 'linear-gradient(135deg, #f6f9fc 0%, #e9f0f5 100%)', 
+        padding: '40px 20px' 
+      }}>
         
-        <div style={{ textAlign: 'right', display: 'flex', flexDirection: 'column', alignItems: 'flex-end' }}>
-          <div style={{ marginBottom: '10px' }}>
-            <div style={{ fontSize: '18px', fontWeight: 'bold', color: '#333' }}>
-              Bem-vindo(a), <span style={{ color: '#0056b3' }}>{nomeUsuario}</span>!
-            </div>
-            <div style={{ fontSize: '13px', color: '#777', marginTop: '4px', fontWeight: '500' }}>
-              Acesso: {serieUsuario === '1' ? 'Ensino Fundamental I' : serieUsuario === '2' ? 'Ensino Fundamental II' : 'Ensino Médio'}
-            </div>
-          </div>
+
+        <div style={{ maxWidth: '1100px', margin: '0 auto' }}>
           
-          <div style={{ display: 'flex', gap: '10px', justifyContent: 'flex-end' }}>
-            <button onClick={handlePerfil} style={{ padding: '8px 16px', backgroundColor: '#e9ecef', color: '#495057', border: 'none', borderRadius: '6px', cursor: 'pointer', fontWeight: 'bold', transition: 'all 0.2s ease' }} onMouseOver={(e) => e.target.style.backgroundColor = '#dde2e6'} onMouseOut={(e) => e.target.style.backgroundColor = '#e9ecef'}>
-              Meu Perfil
-            </button>
-            <button onClick={handleLogout} style={{ padding: '8px 16px', backgroundColor: '#dc3545', color: 'white', border: 'none', borderRadius: '6px', cursor: 'pointer', fontWeight: 'bold', transition: 'all 0.2s ease', boxShadow: '0 2px 5px rgba(220, 53, 69, 0.15)' }} onMouseOver={(e) => e.target.style.backgroundColor = '#c82333'} onMouseOut={(e) => e.target.style.backgroundColor = '#dc3545'}>
-              Sair
-            </button>
+          <div style={{ 
+            display: 'flex', 
+            justifyContent: 'space-between', 
+            alignItems: 'center', 
+            padding: '20px 30px', 
+            backgroundColor: 'rgba(255, 255, 255, 0.85)', 
+            backdropFilter: 'blur(10px)',
+            border: '1px solid rgba(255, 255, 255, 0.6)',
+            boxShadow: '0 8px 24px rgba(0,0,0,0.05)', 
+            borderRadius: '16px', 
+            marginBottom: '40px', 
+            flexWrap: 'wrap', 
+            gap: '20px' 
+          }}>
+            
+            // LOGO 
+            <div style={{ display: 'flex', alignItems: 'center' }}>
+              <img src="/logo/logo.jpg" alt="Logo da Biblioteca" style={{ width: '80px', height: 'auto', borderRadius: '10px' }} />
+            </div>
+
+            // BARRA DE PESQUISA  
+            <div style={{ flex: 1, maxWidth: '500px', margin: '0 20px' }}>
+              <input 
+                type="text" 
+                placeholder="🔍 Pesquise por um título, autor ou categoria..." 
+                value={busca} 
+                onChange={(e) => setBusca(e.target.value)} 
+                style={{ 
+                  width: '100%', 
+                  padding: '16px 24px', 
+                  borderRadius: '30px', 
+                  border: '2px solid transparent', 
+                  outline: 'none', 
+                  fontSize: '15px', 
+                  fontWeight: '600',
+                  backgroundColor: '#ffffff', 
+                  color: '#333',
+                  transition: 'all 0.3s ease', 
+                  boxShadow: '0 6px 15px rgba(0,0,0,0.08)' 
+                }}
+                onFocus={(e) => { 
+                  e.target.style.borderColor = '#ff8c00'; // Borda laranja
+                  e.target.style.boxShadow = '0 6px 20px rgba(255, 140, 0, 0.2)'; // Sombra laranja suave
+                }}
+                onBlur={(e) => { 
+                  e.target.style.borderColor = 'transparent'; 
+                  e.target.style.boxShadow = '0 6px 15px rgba(0,0,0,0.08)'; 
+                }}
+              />
+            </div>
+            
+            // INFORMAÇÕES DO USUÁRIO 
+            <div style={{ textAlign: 'right', display: 'flex', flexDirection: 'column', alignItems: 'flex-end' }}>
+              <div style={{ marginBottom: '12px' }}>
+                <div style={{ fontSize: '18px', fontWeight: '700', color: '#333' }}>
+                  Bem-vindo(a), <span style={{ color: '#ff8c00' }}>{nomeUsuario}</span>!
+                </div>
+                <div style={{ fontSize: '13px', color: '#777', marginTop: '4px', fontWeight: '600' }}>
+                  Acesso: {serieUsuario === '1' ? 'Ensino Fundamental I' : serieUsuario === '2' ? 'Ensino Fundamental II' : 'Ensino Médio'}
+                </div>
+              </div>
+              
+              <div style={{ display: 'flex', gap: '10px', justifyContent: 'flex-end' }}>
+                <button 
+                  onClick={handlePerfil} 
+                  style={{ padding: '10px 18px', backgroundColor: '#e9ecef', color: '#495057', border: 'none', borderRadius: '8px', cursor: 'pointer', fontWeight: '700', transition: 'all 0.2s ease' }} 
+                  onMouseOver={(e) => e.target.style.backgroundColor = '#dde2e6'} 
+                  onMouseOut={(e) => e.target.style.backgroundColor = '#e9ecef'}
+                >
+                  Meu Perfil
+                </button>
+                <button 
+                  onClick={handleLogout} 
+                  style={{ padding: '10px 18px', backgroundColor: '#dc3545', color: 'white', border: 'none', borderRadius: '8px', cursor: 'pointer', fontWeight: '700', transition: 'all 0.2s ease', boxShadow: '0 4px 10px rgba(220, 53, 69, 0.2)' }} 
+                  onMouseOver={(e) => e.target.style.backgroundColor = '#c82333'} 
+                  onMouseOut={(e) => e.target.style.backgroundColor = '#dc3545'}
+                >
+                  Sair
+                </button>
+              </div>
+            </div>
           </div>
+
+          //BANNER DOS FÓRUNS Degradê Laranja e Azul unindo a identidade
+          <div 
+            onClick={() => navigate('/forum')} 
+            style={{ 
+              background: 'linear-gradient(135deg, #0056b3 0%, #ff8c00 100%)', 
+              padding: '35px', 
+              textAlign: 'center', 
+              borderRadius: '16px', 
+              marginBottom: '50px', 
+              color: '#ffffff', 
+              cursor: 'pointer', 
+              boxShadow: '0 10px 25px rgba(0, 86, 179, 0.2)', 
+              transition: 'all 0.3s ease', 
+              display: 'flex', 
+              flexDirection: 'column', 
+              alignItems: 'center', 
+              justifyContent: 'center' 
+            }} 
+            onMouseOver={(e) => { 
+              e.currentTarget.style.transform = 'translateY(-5px)'; 
+              e.currentTarget.style.boxShadow = '0 15px 30px rgba(0, 86, 179, 0.3)'; 
+            }} 
+            onMouseOut={(e) => { 
+              e.currentTarget.style.transform = 'translateY(0)'; 
+              e.currentTarget.style.boxShadow = '0 10px 25px rgba(0, 86, 179, 0.2)'; 
+            }}
+          >
+            <span style={{ fontSize: '26px', fontWeight: '700', letterSpacing: '1px', marginBottom: '8px', textShadow: '0 2px 4px rgba(0,0,0,0.2)' }}>
+              FAÇA PARTE DOS NOSSOS FÓRUNS
+            </span>
+            <span style={{ fontSize: '15px', fontWeight: '400', opacity: 0.95 }}>
+              Clique aqui para compartilhar suas opiniões e descobrir novos livros 💬
+            </span>
+          </div>
+
+          <h2 style={{ 
+            textAlign: 'center', 
+            color: '#2c3e50', 
+            fontWeight: '700',
+            fontSize: '28px',
+            marginBottom: '40px' 
+          }}>
+            Livros Recomendados para você
+          </h2>
+
+          <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', gap: '25px' }}>
+            {livrosFiltrados.length > 0 ? (
+              livrosFiltrados.map((livro) => (
+                <BookCard key={livro.id} livro={livro} />
+              ))
+            ) : (
+              <p style={{ textAlign: 'center', color: '#777', fontSize: '18px', marginTop: '20px', width: '100%', fontWeight: '600' }}>
+                Nenhum livro encontrado para a sua pesquisa.
+              </p>
+            )}
+          </div>
+
         </div>
       </div>
-
-      <div onClick={() => navigate('/forum')} style={{ background: 'linear-gradient(135deg, #0056b3 0%, #00d2ff 100%)', padding: '30px', textAlign: 'center', borderRadius: '12px', marginBottom: '40px', color: '#ffffff', cursor: 'pointer', boxShadow: '0 4px 15px rgba(0, 86, 179, 0.3)', transition: 'all 0.3s ease', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }} onMouseOver={(e) => { e.currentTarget.style.transform = 'translateY(-5px)'; e.currentTarget.style.boxShadow = '0 8px 25px rgba(0, 86, 179, 0.5)'; }} onMouseOut={(e) => { e.currentTarget.style.transform = 'translateY(0)'; e.currentTarget.style.boxShadow = '0 4px 15px rgba(0, 86, 179, 0.3)'; }}>
-        <span style={{ fontSize: '25px', fontWeight: 'bold', letterSpacing: '2px', marginBottom: '8px' }}>FAÇA PARTE DOS NOSSOS FÓRUNS</span>
-        <span style={{ fontSize: '13px', fontWeight: 'normal', opacity: 0.9 }}>Clique aqui para compartilhar suas opiniões e descobrir novos livros 💬</span>
-      </div>
-
-      <h2 style={{ textAlign: 'center', borderBottom: '2px solid #ccc', paddingBottom: '10px', marginBottom: '30px' }}>
-        Livros Recomendados para o seu Ano
-      </h2>
-
-      <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', gap: '20px' }}>
-        {livrosFiltrados.length > 0 ? (
-          livrosFiltrados.map((livro) => (
-            <BookCard key={livro.id} livro={livro} />
-          ))
-        ) : (
-          <p style={{ textAlign: 'center', color: '#777', fontSize: '18px', marginTop: '20px', width: '100%' }}>
-            Nenhum livro encontrado para a sua pesquisa.
-          </p>
-        )}
-      </div>
-
-    </div>
+    </>
   );
 }
 
